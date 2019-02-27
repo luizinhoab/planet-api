@@ -1,0 +1,20 @@
+[
+  {
+    "name" : "Tatooine",
+    "climate" : "arid",
+    "terrain":"desert",
+    "external-url":"swapi.co/api/planets/1/"
+  },
+  {
+    "name" : "Alderaan",
+    "climate" : "temperate",
+    "terrain":"grasslands, mountains",
+    "external-url": "swapi.co/api/planets/2/"
+  },
+  {
+    "name" : "Yavin IV",
+    "climate" : "temperate, tropical",
+    "terrain":"jungle, rainforests",
+    "external-url": "swapi.co/api/planets/3/"
+  }
+]

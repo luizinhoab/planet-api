@@ -1,0 +1,147 @@
+openapi: 3.0.0
+# Added by API Auto Mocking Plugin
+servers:
+- description: api
+  url: api/v1/
+  variables:
+    host:
+      default: localhost
+    port:
+      default: '8000'
+
+info:
+  description: B2W Challenge API Star Wars
+  version: "1.0.0"
+  title: planet-api
+  contact:
+    email: luizinhoab@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
+paths:
+  /planet:
+    get:
+      summary: list persisted planets
+      operationId: list-planets
+      description: |
+        Return list with all persited planets
+      responses:
+        '200':
+          description: return planets list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/planet'
+        '204':
+          description: none planet found
+    post:
+      summary: create planet
+      operationId: create-planet
+      description: |
+        Save planet
+      responses:
+        '201':
+          description: planet created
+        '400':
+          description: validation errors
+        '409':
+          description: an existing item already exists
+        '422':
+          description: unknown planet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/planet'
+        required: true
+  /planet/search:
+    get:
+      summary: Find planet by name
+      operationId: find-by-name
+      description: |
+        Find planet by name
+      parameters:
+      - name: name
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: return planet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/planet'
+        '404':
+          description: none planet found
+        '400':
+          description: validation errors
+
+  /planet/{id}:
+    get:
+      summary: Find planet by id
+      operationId: find-by-id
+      description: |
+        Find planet by id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Id of planet to find
+        schema:
+          type: string
+      responses:
+        '200':
+          description: return planet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/planet'
+        '404':
+          description: none planet found
+        '400':
+          description: validation errors
+    delete:
+      summary: delete planet
+      operationId: delete-planet
+      description: |
+        Delete planet
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '202':
+          description: planet deleted
+        '409':
+          description: planet not exists
+
+components:
+  schemas:
+    planet:
+      type: object
+      required:
+      - name
+      - climate
+      - terrain
+      properties:
+        id:
+          type: string
+          example: 5c677ff93a48aad1d418b90a
+        name:
+          type: string
+          example: Yavin IV
+        climate:
+          type: string
+          example: temperate, tropical
+        terrain:
+          type: string
+          example: jungle, rainforests
+        films-occurrence:
+          type: number
+          example: 1
