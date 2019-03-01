@@ -1,0 +1,36 @@
+plugins {
+  id "com.bmuschko.docker-remote-api" version "4.5.0"
+}
+
+repositories {
+  gradlePluginPortal()
+}
+
+apply plugin: com.bmuschko.gradle.docker.DockerRemoteApiPlugin
+
+import com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerStartContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerStopContainer
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+
+// Use task types
+task buildMyAppImage(type: DockerBuildImage) {
+  inputDir = file('mongo-load/mongo')
+  tags.add('integration-test/mongo:latest')
+}
+
+task createMyAppContainer(type: DockerCreateContainer) {
+  dependsOn buildMyAppImage
+  targetImageId buildMyAppImage.getImageId()
+  portBindings = ['27016:27016']
+  autoRemove = true
+}
+
+task startMyAppContainer(type: DockerStartContainer) {
+  dependsOn createMyAppContainer
+  targetContainerId createMyAppContainer.getContainerId()
+}
+
+task stopMyAppContainer(type: DockerStopContainer) {
+  targetContainerId createMyAppContainer.getContainerId()
+}
