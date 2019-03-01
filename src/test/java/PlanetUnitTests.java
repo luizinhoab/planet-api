@@ -1,8 +1,6 @@
-package io.starwars.planet;
 
-
-import io.starwars.planet.commons.HttpServerVerticleBase;
-import io.starwars.planet.planet.Planet;
+import io.starwars.commons.HttpServerVerticleBase;
+import io.starwars.planet.Planet;
 import io.vertx.circuitbreaker.CircuitBreakerState;
 import io.vertx.circuitbreaker.impl.CircuitBreakerImpl;
 import io.vertx.core.*;

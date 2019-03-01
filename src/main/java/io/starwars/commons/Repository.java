@@ -1,4 +1,4 @@
-package io.starwars.planet.commons;
+package io.starwars.commons;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;

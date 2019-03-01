@@ -1,4 +1,4 @@
-package io.starwars.planet.planet;
+package io.starwars.planet;
 
 import io.vertx.circuitbreaker.CircuitBreaker;
 import io.vertx.core.AsyncResult;

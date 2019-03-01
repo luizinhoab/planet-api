@@ -1,6 +1,6 @@
-package io.starwars.planet.planet;
+package io.starwars.planet;
 
-import io.starwars.planet.commons.RouterFactoryBase;
+import io.starwars.commons.RouterFactoryBase;
 import io.vertx.circuitbreaker.CircuitBreaker;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;

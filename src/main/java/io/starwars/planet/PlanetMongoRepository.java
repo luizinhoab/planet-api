@@ -1,7 +1,7 @@
-package io.starwars.planet.planet;
+package io.starwars.planet;
 
-import io.starwars.planet.commons.MongoClientFactory;
-import io.starwars.planet.commons.Repository;
+import io.starwars.commons.MongoClientFactory;
+import io.starwars.commons.Repository;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;

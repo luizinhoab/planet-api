@@ -1,8 +1,6 @@
-package io.starwars.planet;
-
 import io.netty.handler.codec.http.HttpHeaderValues;
 import io.restassured.RestAssured;
-import io.starwars.planet.planet.PlanetAPIVerticle;
+import io.starwars.planet.PlanetAPIVerticle;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 
@@ -19,7 +17,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import java.util.concurrent.TimeUnit;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 
@@ -27,7 +24,8 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@ExtendWith(VertxExtension.class)public class PlanetIntegrationTests {
+@ExtendWith(VertxExtension.class)
+public class PlanetIntegrationTests {
 
   private static final Logger logger = LoggerFactory.getLogger(PlanetIntegrationTests.class);
 
@@ -49,7 +47,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
     var config = new JsonObject()
       .put("server", new JsonObject().put("host", testHost).put("port", testPort))
       .put("circuit-breaker", new JsonObject().put("name", "circuit-breaker-test").put("max-failures", 5).put("timeout",500).put("reset-timeout",2000))
-      .put("api", new JsonObject().put("name", "test-planet-api").put("swagger-file-path","planet-api_v1.yaml"))
+      .put("api", new JsonObject().put("name", "test-planet-api").put("swagger-file-path", "planet-api_v1.yaml"))
       .put("mongo", new JsonObject().put("connection_string","mongodb://tester:t3st3r@0.0.0.0:27016/starwars?authSource=starwars&authMechanism=SCRAM-SHA-1")
                                     .put("db_name","starwars").put("useObjectId",true))
       .put("swapi", new JsonObject().put("host","swapi.co").put("port",443).put("base-resource","/api/planets"));
@@ -175,14 +173,14 @@ import static org.hamcrest.core.IsEqual.equalTo;
   void test_list_planets(VertxTestContext testContext){
     var client = WebClient.create(this.vertx);
 
-    given()
-      .when()
-      .get("/planet")
-      .then().statusCode(200)
-      .and()
-      .body("size", is(3))
-      .and()
-      .body("find {it.name='Alderaan'}.films-occurrence", equalTo(2));
+      given()
+        .when()
+        .get("/planet")
+        .then().statusCode(200)
+        .and()
+        .body("size", is(3))
+        .and()
+        .body("find {it.name=='Alderaan'}.films-occurrence", equalTo(2));
 
     testContext.completeNow();
   }

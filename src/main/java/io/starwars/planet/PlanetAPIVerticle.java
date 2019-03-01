@@ -1,6 +1,6 @@
-package io.starwars.planet.planet;
+package io.starwars.planet;
 
-import io.starwars.planet.commons.HttpServerVerticleBase;
+import io.starwars.commons.HttpServerVerticleBase;
 import io.vertx.core.*;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;

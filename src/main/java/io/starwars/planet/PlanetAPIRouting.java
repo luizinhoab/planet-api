@@ -1,6 +1,6 @@
-package io.starwars.planet.planet;
+package io.starwars.planet;
 
-import io.starwars.planet.commons.RoutingBase;
+import io.starwars.commons.RoutingBase;
 import io.vertx.circuitbreaker.CircuitBreaker;
 import io.vertx.core.*;
 import io.vertx.core.json.Json;

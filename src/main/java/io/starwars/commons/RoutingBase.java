@@ -1,4 +1,4 @@
-package io.starwars.planet.commons;
+package io.starwars.commons;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.http.HttpHeaders;

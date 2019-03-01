@@ -1,4 +1,4 @@
-package io.starwars.planet.planet;
+package io.starwars.planet;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
