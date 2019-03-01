@@ -22,11 +22,11 @@ import com.bmuschko.gradle.docker.tasks.image.*
 import com.bmuschko.gradle.docker.tasks.container.*
 
 
-group = 'digital.b2w.challenge'
+group = 'io.starwars'
 version = '1.0.0-SNAPSHOT'
 
-targetCompatibility = 10
-sourceCompatibility = 10
+targetCompatibility = 11
+sourceCompatibility = 11
 
 mainClassName = 'io.vertx.core.Launcher'
 
@@ -102,19 +102,20 @@ test {
 }
 
 task integrationTest(type: Test) {
+  mustRunAfter test
+  dependsOn startMyAppContainer
   description = 'Runs the integration tests.'
   group = 'verification'
   testClassesDirs = sourceSets.integrationTest.output.classesDirs
   classpath = sourceSets.integrationTest.runtimeClasspath
   outputs.upToDateWhen { false }
-
+  finalizedBy stopMyAppContainer
   useJUnitPlatform()
 }
 
+check.dependsOn test
 check.dependsOn integrationTest
-integrationTest.mustRunAfter test
-integrationTest.dependsOn startMyAppContainer
-integrationTest.finalizedBy stopMyAppContainer
+
 
 run {
   args = ['run', mainVerticleName, "--redeploy=$watchForChange", "--launcher-class=$mainClassName", "--on-redeploy=$doOnChange", "-conf src/main/resources/conf/config-dev.json"]
