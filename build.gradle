@@ -23,7 +23,7 @@ import com.bmuschko.gradle.docker.tasks.container.*
 
 
 group = 'io.starwars'
-version = '1.0.0-SNAPSHOT'
+version = '1.0.0-RC'
 
 targetCompatibility = 11
 sourceCompatibility = 11
