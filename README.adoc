@@ -1,31 +1,59 @@
-= Starwars
+= *Planet API*
 
 image:https://img.shields.io/badge/vert.x-3.6.3-purple.svg[link="https://vertx.io"]
 
-This application was generated using http://start.vertx.io
+The purpose of this application was the challenge participation proposed by B2W hiring team.is api was specified and documented under Open API 3 standard.
 
-== Building
 
-To launch your tests:
-```
-./gradlew clean test
-```
+This application exposes a reactive rest microservice, under Java/Vert.x,docker-mongo with crud operations to handle planets persited on MongoDb.
 
-To package your application:
-```
-./gradlew clean assemble
-```
 
-To run your application:
-```
-./gradlew clean run
-```
+== *Running*
 
-== Help
+Will need install http://jdk.java.net/11/[OpenJDK 11] and https://gradle.org/[Gradle 5.2] to build and run the app.
+
+=== _Development_ :
+
+===== Intelij
+
+  Main Class: io.vertx.core.Launcher
+  VM Options:
+    -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.Log4j2LogDelegateFactory
+    --add-exports
+    java.base/jdk.internal.misc=ALL-UNNAMED
+    -Dio.netty.tryReflectionSetAccessible=true
+  Program arguments: run io.starwars.planet.PlanetAPIVerticle -conf src/main/resources/conf/config-dev.json
+
+===== Gradle
+
+  ./gradlew clean run
+
+=== __Test __ :
+
+==== Unit
+
+    ./gradlew clean test
+
+==== Integration
+
+    ./gradlew clean integrationTest
+
+=== _Production_ :
+
+===== Packaging
+
+    ./gradlew clean shadowJar
+
+===== Start application
+
+    java -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.Log4j2LogDelegateFactory
+         --add-exports java.base/jdk.internal.misc=ALL-UNNAMED
+         -Dio.netty.tryReflectionSetAccessible=true
+         -jar -conf src/main/resources/conf/config-dev.json
+
+== *Help*
 
 * https://vertx.io/docs/[Vert.x Documentation]
-* https://stackoverflow.com/questions/tagged/vert.x?sort=newest&pageSize=15[Vert.x Stack Overflow]
-* https://groups.google.com/forum/?fromgroups#!forum/vertx[Vert.x User Group]
-* https://gitter.im/eclipse-vertx/vertx-users[Vert.x Gitter]
+* https://swagger.io/[Open API 3]
 
 
