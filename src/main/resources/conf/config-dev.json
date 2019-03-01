@@ -1,0 +1,27 @@
+{
+  "server":{
+    "host":"0.0.0.0",
+    "port":8000
+  },
+  "circuit-breaker":{
+    "name":"cb-planet-api",
+    "max-failures":5,
+    "timeout":2000,
+    "fallback-failure": true,
+    "reset-timeout":6000
+  },
+  "api":{
+    "name":"planet-api",
+    "swagger-file-path":"planet-api_v1.yaml"
+  },
+  "mongo":{
+    "connection_string":"mongodb://tester:t3st3r@0.0.0.0:27016/starwars?authSource=starwars&authMechanism=SCRAM-SHA-1",
+    "db_name":"starwars",
+    "useObjectId":true
+  },
+  "swapi":{
+    "host":"swapi.co",
+    "port":443,
+    "base-resource":"/api/planets"
+  }
+}

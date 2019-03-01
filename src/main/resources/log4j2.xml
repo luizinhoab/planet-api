@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration>
+<Appenders>
+  <Console name="Console" target="SYSTEM_OUT">
+    <PatternLayout pattern="%d{ISO8601} %-5p- %r - %l - %m%n" />
+  </Console>
+  <RollingFile name="vertx_logs" append="true" fileName="/var/log/vertx/starwars-api.log" filePattern="/var/log/vertx/$${date:yyyy-MM}/starwars-api-%d{MM-dd-yyyy}-%i.log.gz">
+    <PatternLayout pattern="%d{ISO8601} %-5p %c:%L - %m%n" />
+    <Policies>/
+      <OnStartupTriggeringPolicy />
+      <TimeBasedTriggeringPolicy />
+    </Policies>
+  </RollingFile>
+  <Async name="vertx_async">
+    <AppenderRef ref="vertx_logs"/>
+  </Async>
+</Appenders>
+<Loggers>
+  <Root level="DEBUG">
+    <AppenderRef ref="Console"/>
+    <AppenderRef ref="vertx_async" />
+  </Root>
+</Loggers>
+</Configuration>

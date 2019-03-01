@@ -1,0 +1,122 @@
+plugins {
+  id 'java'
+  id 'application'
+  id 'com.github.johnrengelman.shadow' version '4.0.2'
+  id 'com.bmuschko.docker-remote-api' version '4.5.0'
+}
+
+ext {
+  vertxVersion = '3.6.3'
+  junitJupiterEngineVersion = '5.4.0'
+  log4jVersion = '2.11.1'
+  restAssured = '3.3.0'
+}
+
+repositories {
+  mavenCentral()
+  jcenter()
+}
+
+// Import task types
+import com.bmuschko.gradle.docker.tasks.image.*
+import com.bmuschko.gradle.docker.tasks.container.*
+
+
+group = 'io.starwars'
+version = '1.0.0-RC'
+
+targetCompatibility = 11
+sourceCompatibility = 11
+
+mainClassName = 'io.vertx.core.Launcher'
+
+
+def mainVerticleName = 'io.starwars.planet.PlanetAPIVerticle'
+def watchForChange = 'src/**/*'
+def doOnChange = './gradlew classes'
+
+sourceSets {
+  integrationTest {
+    java {
+      compileClasspath += sourceSets.main.output + configurations.testCompile
+      runtimeClasspath += output + compileClasspath + configurations.testRuntime
+      srcDir file('src/integrationTest/java')
+    }
+  }
+}
+
+configurations {
+  integrationTestImplementation.extendsFrom testImplementation
+  integrationTestRuntime.extendsFrom testRuntime
+}
+
+dependencies {
+
+  implementation "io.vertx:vertx-core:$vertxVersion"
+  implementation "io.vertx:vertx-web-client:$vertxVersion"
+  implementation "io.vertx:vertx-web:$vertxVersion"
+  implementation "io.vertx:vertx-mongo-client:$vertxVersion"
+  implementation "io.vertx:vertx-service-discovery:$vertxVersion"
+  implementation "io.vertx:vertx-circuit-breaker:$vertxVersion"
+  implementation "io.vertx:vertx-web-api-contract:$vertxVersion"
+  implementation "io.vertx:vertx-service-discovery-bridge-docker:$vertxVersion"
+  implementation "org.apache.logging.log4j:log4j-api:$log4jVersion"
+  implementation "org.apache.logging.log4j:log4j-core:$log4jVersion"
+
+  testImplementation "io.vertx:vertx-junit5:$vertxVersion"
+  testImplementation "org.junit.jupiter:junit-jupiter:$junitJupiterEngineVersion"
+
+  testImplementation "io.rest-assured:rest-assured:$restAssured"
+
+}
+
+
+test {
+  useJUnitPlatform()
+}
+
+// Use task types
+task buildMyAppImage(type: DockerBuildImage) {
+  inputDir = file('mongo-load/')
+  tags.add('integration-test/mongo:latest')
+}
+
+task createMyAppContainer(type: DockerCreateContainer) {
+  dependsOn buildMyAppImage
+  targetImageId buildMyAppImage.getImageId()
+  portBindings = ['27016:27016']
+  autoRemove = true
+}
+
+task startMyAppContainer(type: DockerStartContainer) {
+  dependsOn createMyAppContainer
+  targetContainerId createMyAppContainer.getContainerId()
+}
+
+task stopMyAppContainer(type: DockerStopContainer) {
+  targetContainerId createMyAppContainer.getContainerId()
+}
+
+test {
+  useJUnitPlatform()
+}
+
+task integrationTest(type: Test) {
+  mustRunAfter test
+  dependsOn startMyAppContainer
+  description = 'Runs the integration tests.'
+  group = 'verification'
+  testClassesDirs = sourceSets.integrationTest.output.classesDirs
+  classpath = sourceSets.integrationTest.runtimeClasspath
+  outputs.upToDateWhen { false }
+  finalizedBy stopMyAppContainer
+  useJUnitPlatform()
+}
+
+check.dependsOn test
+check.dependsOn integrationTest
+
+
+run {
+  args = ['run', mainVerticleName, "--redeploy=$watchForChange", "--launcher-class=$mainClassName", "--on-redeploy=$doOnChange", "-conf src/main/resources/conf/config-dev.json"]
+}
