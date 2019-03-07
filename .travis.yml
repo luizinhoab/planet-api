@@ -6,5 +6,7 @@ jdk:
 os:
 - linux
 
-script:
+install:
   echo $JAVA_HOME
+  java -version
+

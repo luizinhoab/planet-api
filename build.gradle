@@ -70,12 +70,6 @@ dependencies {
 
 }
 
-subprojects {
-  if (project.name != 'shared') {
-    apply plugin: 'java'
-    jar.dependsOn ':shared:jar'
-  }
-}
 
 test {
   useJUnitPlatform()
