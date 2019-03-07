@@ -7,6 +7,5 @@ os:
 - linux
 
 install:
-  echo $JAVA_HOME
-  java -version
+  gradle
 
