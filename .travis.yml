@@ -3,6 +3,11 @@ language: java
 jdk:
 - openjdk11
 
+script:
+- export JAVA_HOME=$HOME/openjdk11
+- $TRAVIS_BUILD_DIR/install-jdk.sh --install openjdk11 --target $JAVA_HOME
+- # do stuff with open OpenJDK 11
+
 os:
 - linux
 
