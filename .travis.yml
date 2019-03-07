@@ -5,3 +5,6 @@ jdk:
 
 os:
 - linux
+
+script:
+  echo $JAVA_HOME
