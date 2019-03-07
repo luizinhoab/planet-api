@@ -116,6 +116,8 @@ task integrationTest(type: Test) {
 check.dependsOn test
 check.dependsOn integrationTest
 
+jar.dependsOn ':shared:jar'
+
 
 run {
   args = ['run', mainVerticleName, "--redeploy=$watchForChange", "--launcher-class=$mainClassName", "--on-redeploy=$doOnChange", "-conf src/main/resources/conf/config-dev.json"]
