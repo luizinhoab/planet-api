@@ -41,7 +41,7 @@ public class PlanetAPIVerticle extends HttpServerVerticleBase {
 
   private void buildRouter(Handler<AsyncResult<Void>> resultHandler){
     logger.info("Building Router");
-    new PlanetSwaggerRouterFactory().create(vertx, getCircuitBreaker(), asyncRouter -> {
+    new PlanetRouterFactory().create(vertx, getCircuitBreaker(), asyncRouter -> {
       this.apiName = apiConfig.getString("name", "planet-api");
       if (asyncRouter.succeeded()) {
         this.router = asyncRouter.result();

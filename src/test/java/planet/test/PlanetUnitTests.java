@@ -1,3 +1,4 @@
+package planet.test;
 
 import io.starwars.commons.HttpServerVerticleBase;
 import io.starwars.planet.Planet;
@@ -54,17 +55,17 @@ public class PlanetUnitTests {
   }
 
   @BeforeEach
-  void beforeTest(TestInfo testInfo){
+  protected void beforeTest(TestInfo testInfo){
     logger.info(String.format("About to execute [%s]", testInfo.getDisplayName()));
   }
 
   @AfterEach
-  void afterTest(TestInfo testInfo) {
+  protected void afterTest(TestInfo testInfo) {
     logger.info(String.format("Finished executing [%s]", testInfo.getDisplayName()));
   }
 
   @AfterAll
-  void tearDown(Vertx vertx){
+  protected void tearDown(Vertx vertx){
     logger.info("After all tests, bye ...");
     vertx.close();
   }
@@ -74,7 +75,7 @@ public class PlanetUnitTests {
   @Timeout(value = 5, timeUnit = TimeUnit.SECONDS)
   @Test
   @Order(1)
-  void start_http_server(VertxTestContext testContext) {
+  protected void startHttpServer(VertxTestContext testContext) {
     var client = WebClient.create(this.vertx);
     client.get(8001, "0.0.0.0", "/")
       .as(BodyCodec.string())
@@ -88,7 +89,7 @@ public class PlanetUnitTests {
   @Timeout(value = 5, timeUnit = TimeUnit.SECONDS)
   @Test
   @Order(2)
-  void init_circuit_brake(VertxTestContext testContext){
+  protected void initCircuitBreaker(VertxTestContext testContext){
     var cb = httpServer.getCircuitBreaker();
     assertTrue(cb.name().equals("circuit-breaker-test"), "Circuit breaker name");
     assertEquals( 0, cb.failureCount(),"Circuit breaker initial failures");
@@ -98,7 +99,7 @@ public class PlanetUnitTests {
   @Timeout(value = 5, timeUnit = TimeUnit.SECONDS)
   @Test
   @Order(3)
-  void test_circuit_breaker(VertxTestContext testContext){
+  protected void testCircuitBreaker(VertxTestContext testContext){
 
     var cb = httpServer.getCircuitBreaker();
 
@@ -127,7 +128,7 @@ public class PlanetUnitTests {
   @Timeout(value = 5, timeUnit = TimeUnit.SECONDS)
   @Test
   @Order(4)
-  void init_service_discovery(VertxTestContext testContext){
+  protected void initServiceDiscovery(VertxTestContext testContext){
     var discovery = httpServer.getDiscovery();
     discovery.getRecords(new JsonObject(), event -> {
       if(event.succeeded() && event.result() != null){
@@ -144,7 +145,7 @@ public class PlanetUnitTests {
   @Timeout(value = 5, timeUnit = TimeUnit.SECONDS)
   @Test
   @Order(5)
-  void test_service_discovery(VertxTestContext testContext){
+  protected void testServiceDiscovery(VertxTestContext testContext){
     var discovery = httpServer.getDiscovery();
     var name = "test";
     Record newRecord = HttpEndpoint.createRecord(name, "0.0.0.0", 8001, "/", new JsonObject().put("api.name", name));
@@ -183,7 +184,7 @@ public class PlanetUnitTests {
   @Timeout(value = 5, timeUnit = TimeUnit.SECONDS)
   @Test
   @Order(6)
-  void serialize_json_planet_model(VertxTestContext testContext){
+  protected void serializeJsonPlanetModel(VertxTestContext testContext){
     Planet planet = new Planet();
     planet.setId("test");
     planet.setName("planet");
@@ -209,7 +210,7 @@ public class PlanetUnitTests {
   @Timeout(value = 5, timeUnit = TimeUnit.SECONDS)
   @Test
   @Order(7)
-  void desserialize_json_planet_model(VertxTestContext testContext){
+  protected void desserializeJsonPlanetModel(VertxTestContext testContext){
     Planet planet = Json.decodeValue(PLANET_JSON, Planet.class);
 
     assertTrue("test".equals(planet.getId()));
@@ -229,12 +230,6 @@ public class PlanetUnitTests {
 
   private Handler<Future<Void>> commandThatFails() {
     return (future -> vertx.setTimer(4, l -> future.fail("expected failure")));
-  }
-
-  private Handler<Future<Void>> commandThatCrashes() {
-    return (future -> {
-      throw new RuntimeException("Expected error");
-    });
   }
 
   private Handler<Future<Void>> commandThatTimeout(int timeout) {
