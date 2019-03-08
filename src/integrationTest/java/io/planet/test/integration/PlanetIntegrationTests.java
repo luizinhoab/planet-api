@@ -1,4 +1,4 @@
-package planet.integrationTest;
+package io.planet.test.integration;
 
 import io.netty.handler.codec.http.HttpHeaderValues;
 import io.restassured.RestAssured;
@@ -9,7 +9,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.ext.web.client.WebClient;
 import io.vertx.junit5.Timeout;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;

@@ -1,4 +1,4 @@
-package planet.test;
+package io.planet.test.unit;
 
 import io.starwars.commons.HttpServerVerticleBase;
 import io.starwars.planet.Planet;
