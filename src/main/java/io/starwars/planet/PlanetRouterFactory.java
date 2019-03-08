@@ -14,19 +14,16 @@ import io.vertx.ext.web.api.contract.openapi3.OpenAPI3RouterFactory;
 
 import java.util.Optional;
 
-public class PlanetSwaggerRouterFactory extends RouterFactoryBase {
+public class PlanetRouterFactory extends RouterFactoryBase {
 
-  private static final Logger logger = LoggerFactory.getLogger(PlanetSwaggerRouterFactory.class);
+  private static final Logger logger = LoggerFactory.getLogger(PlanetRouterFactory.class);
 
   private PlanetAPIRouting apiRouting;
-  private JsonObject config;
-
-
 
   @Override
   public void create(Vertx vertx, CircuitBreaker breaker, Handler<AsyncResult<Router>> handlerResult) {
     this.apiRouting = new PlanetAPIRouting(vertx, breaker);
-    this.config = vertx.getOrCreateContext().config().getJsonObject("api");
+    var config = vertx.getOrCreateContext().config().getJsonObject("api");
     var path = Optional
                   .ofNullable(config.getString("swagger-file-path"))
                   .orElseThrow(() -> new RuntimeException("no such 'swagger-file-path' configuration"));

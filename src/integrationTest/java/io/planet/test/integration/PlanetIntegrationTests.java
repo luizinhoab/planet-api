@@ -1,3 +1,5 @@
+package io.planet.test.integration;
+
 import io.netty.handler.codec.http.HttpHeaderValues;
 import io.restassured.RestAssured;
 import io.starwars.planet.PlanetAPIVerticle;
@@ -7,7 +9,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.ext.web.client.WebClient;
 import io.vertx.junit5.Timeout;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
@@ -38,7 +39,7 @@ public class PlanetIntegrationTests {
   private Vertx vertx;
 
   @BeforeEach
-  void setUp(Vertx vertx, TestInfo testInfo, VertxTestContext testContext) {
+  protected void setUp(Vertx vertx, TestInfo testInfo, VertxTestContext testContext) {
 
     logger.info(String.format("About to execute [%s]", testInfo.getDisplayName()));
     var testPort = 8001;
@@ -60,12 +61,12 @@ public class PlanetIntegrationTests {
   }
 
   @AfterEach
-  void afterTest(TestInfo testInfo) {
+  protected void afterTest(TestInfo testInfo) {
     logger.info(String.format("Finished executing [%s]", testInfo.getDisplayName()));
   }
 
   @AfterAll
-  void tearDown(Vertx vertx){
+  protected void tearDown(Vertx vertx){
     logger.info("After all tests, bye ...");
     vertx.close();
   }
@@ -75,7 +76,7 @@ public class PlanetIntegrationTests {
   @Timeout(value = 5, timeUnit = TimeUnit.SECONDS)
   @Test
   @Order(1)
-  void create_planet(VertxTestContext testContext) {
+  protected void createPlanet(VertxTestContext testContext) {
 
     this.idToDelete = given()
       .contentType(HttpHeaderValues.APPLICATION_JSON.toString())
@@ -102,7 +103,7 @@ public class PlanetIntegrationTests {
   @Timeout(value = 5, timeUnit = TimeUnit.SECONDS)
   @Test
   @Order(2)
-  void find_planet_name(VertxTestContext testContext) {
+  protected void findPlanetName(VertxTestContext testContext) {
 
     given()
       .when()
@@ -127,7 +128,7 @@ public class PlanetIntegrationTests {
   @Timeout(value = 5, timeUnit = TimeUnit.SECONDS)
   @Test
   @Order(3)
-  void find_planet_id(VertxTestContext testContext) {
+  protected void findPlanetId(VertxTestContext testContext) {
 
     given()
       .when()
@@ -151,7 +152,7 @@ public class PlanetIntegrationTests {
   @Timeout(value = 5, timeUnit = TimeUnit.SECONDS)
   @Test
   @Order(4)
-  void delete_planet(VertxTestContext testContext){
+  protected void deletePlanet(VertxTestContext testContext){
 
     given()
       .when()
@@ -170,8 +171,7 @@ public class PlanetIntegrationTests {
   @Timeout(value = 5, timeUnit = TimeUnit.SECONDS)
   @Test
   @Order(5)
-  void test_list_planets(VertxTestContext testContext){
-    var client = WebClient.create(this.vertx);
+  protected void testListPlanets(VertxTestContext testContext){
 
       given()
         .when()

@@ -23,7 +23,7 @@ import com.bmuschko.gradle.docker.tasks.container.*
 
 
 group = 'io.starwars'
-version = '1.0.0'
+version = '1.0.1-SNAPSHOT'
 
 targetCompatibility = 11
 sourceCompatibility = 11
@@ -70,11 +70,6 @@ dependencies {
 
 }
 
-
-test {
-  useJUnitPlatform()
-}
-
 // Use task types
 task buildMyAppImage(type: DockerBuildImage) {
   inputDir = file('mongo-load/')
@@ -113,8 +108,10 @@ task integrationTest(type: Test) {
   useJUnitPlatform()
 }
 
+integrationTest.dependsOn test
 check.dependsOn test
 check.dependsOn integrationTest
+
 
 
 run {
