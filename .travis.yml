@@ -13,10 +13,17 @@ before_cache:
 
 cache:
   directories:
-  - $HOME/.gradle
+  - $HOME/.gradle/caches/
   - $HOME/.m2/caches/
   - $HOME/.gradle/wrapper/
 
+before_install:
+- curl -sL https://bit.ly/jpm4j >jpm4j.jar
+- sudo java -jar jpm4j.jar -g init
+- sudo jpm install com.codacy:codacy-coverage-reporter:assembly
+
+after_success:
+- codacy-coverage-reporter -l Java -r build/reports/jacoco/test/jacocoTestReport.xml  --prefix src/main/java/
 
 jdk:
 - oraclejdk11

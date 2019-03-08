@@ -1,6 +1,7 @@
 plugins {
   id 'java'
   id 'application'
+  id 'jacoco'
   id 'com.github.johnrengelman.shadow' version '4.0.2'
   id 'com.bmuschko.docker-remote-api' version '4.5.0'
 }
@@ -108,9 +109,16 @@ task integrationTest(type: Test) {
   useJUnitPlatform()
 }
 
+jacocoTestReport {
+  reports {
+    xml.enabled = true
+  }
+}
+
 integrationTest.dependsOn test
 check.dependsOn test
 check.dependsOn integrationTest
+check.dependsOn jacocoTestReport
 
 
 
