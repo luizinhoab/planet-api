@@ -13,13 +13,13 @@ import io.vertx.ext.mongo.MongoClient;
 
 import java.util.List;
 
-public class PlanetMongoRepository implements Repository {
+public class PlanetRepository implements Repository {
 
-  private static final Logger logger = LoggerFactory.getLogger(PlanetMongoRepository.class);
+  private static final Logger logger = LoggerFactory.getLogger(PlanetRepository.class);
   private static final String COLLECTION = "planets";
   private MongoClient client;
 
-  public PlanetMongoRepository(Vertx vertx) {
+  public PlanetRepository(Vertx vertx) {
     this.client = new MongoClientFactory().createShared(vertx, "planet-pool");
   }
 

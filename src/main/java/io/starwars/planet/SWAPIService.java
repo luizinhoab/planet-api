@@ -23,8 +23,8 @@ public class SWAPIService{
 
   private Vertx vertx;
   private CircuitBreaker breaker;
-  WebClient webClient;
-  WebClientOptions options;
+  private WebClient webClient;
+  private WebClientOptions options;
 
   public SWAPIService(Vertx vertx, CircuitBreaker breaker) {
     this.vertx = vertx;

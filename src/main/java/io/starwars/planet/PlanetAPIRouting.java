@@ -1,5 +1,6 @@
 package io.starwars.planet;
 
+import io.netty.util.internal.StringUtil;
 import io.starwars.commons.RoutingBase;
 import io.vertx.circuitbreaker.CircuitBreaker;
 import io.vertx.core.*;
@@ -17,11 +18,11 @@ public class PlanetAPIRouting extends RoutingBase {
 
   private static final Logger logger = LoggerFactory.getLogger(PlanetAPIRouting.class);
 
-  private PlanetMongoRepository repository;
+  private PlanetRepository repository;
   private SWAPIService service;
 
   public PlanetAPIRouting(Vertx vertx, CircuitBreaker breaker) {
-    this.repository = new PlanetMongoRepository(vertx);
+    this.repository = new PlanetRepository(vertx);
     this.service = new SWAPIService(vertx, breaker);
   }
 
@@ -158,7 +159,7 @@ public class PlanetAPIRouting extends RoutingBase {
     var request = routingContext.request();
     logger.debug("{} - {}",request.method(), request.path());
     var id = routingContext.pathParam("id");
-    if(id != null || !id.isBlank()) {
+    if(!StringUtil.isNullOrEmpty(id)) {
       repository.delete(id, event -> {
         if (event.succeeded()) {
           if (event.result()) {
