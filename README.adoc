@@ -1,5 +1,7 @@
 = *Planet API*
 
+image:https://api.codacy.com/project/badge/Grade/78f9b8b12c154d27b7e5c9c3ceff438e[link="https://app.codacy.com/app/luizinhoab/planet-api?utm_source=github.com&utm_medium=referral&utm_content=luizinhoab/planet-api&utm_campaign=Badge_Grade_Dashboard"]
+
 image:https://img.shields.io/badge/vert.x-3.6.3-purple.svg[link="https://vertx.io"]
 
 The purpose of this application was the challenge participation proposed by B2W hiring team.is api was specified and documented under Open API 3 standard.
