@@ -28,5 +28,4 @@ jdk:
 - openjdk11
 
 notifications:
-  branch != master
   email: false
