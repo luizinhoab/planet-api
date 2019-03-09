@@ -26,6 +26,3 @@ after_success:
 
 jdk:
 - openjdk11
-
-notifications:
-  email: false
