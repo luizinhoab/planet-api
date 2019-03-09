@@ -36,15 +36,12 @@ public class PlanetIntegrationTests {
 
   private String idToDelete;
 
-  private Vertx vertx;
-
   @BeforeEach
   protected void setUp(Vertx vertx, TestInfo testInfo, VertxTestContext testContext) {
 
     logger.info(String.format("About to execute [%s]", testInfo.getDisplayName()));
     var testPort = 8001;
     var testHost = "0.0.0.0";
-    this.vertx = vertx;
     var config = new JsonObject()
       .put("server", new JsonObject().put("host", testHost).put("port", testPort))
       .put("circuit-breaker", new JsonObject().put("name", "circuit-breaker-test").put("max-failures", 5).put("timeout",500).put("reset-timeout",2000))

@@ -1,6 +1,7 @@
 plugins {
   id 'java'
   id 'application'
+  id 'jacoco'
   id 'com.github.johnrengelman.shadow' version '4.0.2'
   id 'com.bmuschko.docker-remote-api' version '4.5.0'
 }
@@ -23,7 +24,9 @@ import com.bmuschko.gradle.docker.tasks.container.*
 
 
 group = 'io.starwars'
-version = '1.0.1'
+
+version = '1.1.0'
+
 
 targetCompatibility = 11
 sourceCompatibility = 11
@@ -108,9 +111,16 @@ task integrationTest(type: Test) {
   useJUnitPlatform()
 }
 
+jacocoTestReport {
+  reports {
+    xml.enabled = true
+  }
+}
+
 integrationTest.dependsOn test
 check.dependsOn test
 check.dependsOn integrationTest
+check.dependsOn jacocoTestReport
 
 
 
