@@ -113,9 +113,9 @@ task integrationTest(type: Test) {
 
 jacocoTestReport {
   reports.xml.enabled = true
+  
   sourceSets sourceSets.main
   executionData test, integrationTest
-
 }
 
 integrationTest.dependsOn test
