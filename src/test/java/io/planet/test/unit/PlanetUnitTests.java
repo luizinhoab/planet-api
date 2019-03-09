@@ -38,7 +38,7 @@ public class PlanetUnitTests {
   private HttpServerVerticleBase httpServer;
 
   @BeforeEach
-   void setUp(Vertx vertx, VertxTestContext testContext) {
+  protected void setUp(Vertx vertx, VertxTestContext testContext) {
 
     logger.info("Setup tests");
 
