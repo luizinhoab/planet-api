@@ -4,11 +4,11 @@ image:https://travis-ci.org/luizinhoab/planet-api.svg?branch=master["Build Statu
 
 image:https://img.shields.io/badge/vert.x-3.6.3-purple.svg[link="https://vertx.io"]
 
-image:https://api.codacy.com/project/badge/Coverage/45aedff8bba941d1bee2d87b435df72c["Codacy code quality", link="https://www.codacy.com/app/luizinhoab/planet-api?utm_source=github.com&utm_medium=referral&utm_content=luizinhoab/planet-api&utm_campaign=Badge_Coverage"]
+
 The purpose of this application was the challenge participation proposed by B2W hiring team.This api was specified and documented under Open API 3 standard and can be consulted on https://app.swaggerhub.com/apis-docs/luizinhoab/b2w-challenge/1.0.0[https://app.swaggerhub.com/apis-docs/luizinhoab/b2w-challenge/1.0.0] .
 
 
-This application exposes a reactive rest microservice, under Java/Vert.x,docker-mongo with crud operations to handle planets persited on MongoDb.
+This application exposes a reactive rest microservice, under Java/Vert.x, with crud operations to handle planets persited on MongoDb.
 
 
 == *Running*
