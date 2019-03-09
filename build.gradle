@@ -25,7 +25,7 @@ import com.bmuschko.gradle.docker.tasks.container.*
 
 group = 'io.starwars'
 
-version = '1.1.0'
+version = '1.1.1'
 
 
 targetCompatibility = 11
@@ -112,9 +112,10 @@ task integrationTest(type: Test) {
 }
 
 jacocoTestReport {
-  reports {
-    xml.enabled = true
-  }
+  reports.xml.enabled = true
+  
+  sourceSets sourceSets.main
+  executionData test, integrationTest
 }
 
 integrationTest.dependsOn test
