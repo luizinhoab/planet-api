@@ -14,8 +14,13 @@ This application exposes a reactive rest microservice, under Java/Vert.x, with c
 == *Running*
 
 Will need install http://jdk.java.net/11/[OpenJDK 11] and https://gradle.org/[Gradle 5.2] to build and run the app.
+Optionally install https://www.docker.com/[Docker] to run the container with MongoDb and sample data loaded, is same image used in the integration tests.
 
 === _Development_ :
+
+===== Sample Database
+
+  docker build -t mongo-test . && docker run -p 0.0.0.0:27016:27016 --name mongo-dev -d  -t  -i  mongo-test
 
 ===== Intelij
 
@@ -41,6 +46,12 @@ Will need install http://jdk.java.net/11/[OpenJDK 11] and https://gradle.org/[Gr
 
     ./gradlew clean integrationTest
 
+==== Check
+
+Run complete verification, currently unit and integration tests, runned by Travis.
+
+    ./gradlew clean check
+
 === _Production_ :
 
 ===== Packaging
@@ -52,11 +63,11 @@ Will need install http://jdk.java.net/11/[OpenJDK 11] and https://gradle.org/[Gr
     java -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.Log4j2LogDelegateFactory
          --add-exports java.base/jdk.internal.misc=ALL-UNNAMED
          -Dio.netty.tryReflectionSetAccessible=true
-         -jar -conf src/main/resources/conf/config-dev.json
+         -jar plane-api-<VERSION>.jar -conf src/main/resources/conf/config-dev.json
 
-== *Help*
+== *Built with*
 
-* https://vertx.io/docs/[Vert.x Documentation]
-* https://swagger.io/[Open API 3]
-
-
+* http://jdk.java.net/11/[OpenJDK 11] - Java 11
+* https://vertx.io/[Vert.x] - Eclipse Vert.x is a tool-kit for building reactive applications on the JVM.
+* https://swagger.io/[Open API 3] - Design API
+* https://gradle.org/[Gradle] Dependency management and tasks automatization
