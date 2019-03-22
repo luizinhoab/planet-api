@@ -3,11 +3,16 @@ package io.starwars.commons;
 import io.vertx.circuitbreaker.CircuitBreaker;
 import io.vertx.circuitbreaker.CircuitBreakerOptions;
 import io.vertx.core.*;
+import io.vertx.core.http.HttpServer;
 import io.vertx.core.impl.ConcurrentHashSet;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import io.vertx.ext.dropwizard.MetricsService;
+import io.vertx.ext.healthchecks.HealthCheckHandler;
+import io.vertx.ext.healthchecks.Status;
+import io.vertx.ext.web.RoutingContext;
 import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.servicediscovery.types.HttpEndpoint;
@@ -20,15 +25,18 @@ public class MicroServicesVerticleBase extends AbstractVerticle {
 
   private static final Logger logger = LoggerFactory.getLogger(MicroServicesVerticleBase.class);
 
-  private ServiceDiscovery discovery;
-  private CircuitBreaker circuitBreaker;
-  private Set<Record> registeredRecords = new ConcurrentHashSet<>();
+  protected ServiceDiscovery discovery;
+  protected CircuitBreaker circuitBreaker;
+  protected MetricsService metricsService;
+  protected Set<Record> registeredRecords = new ConcurrentHashSet<>();
+  protected HttpServer server;
 
   @Override
   public void init(Vertx vertx, Context context) {
     super.init(vertx, context);
     initCircuitBreaker();
     initServiceDiscovery();
+    initMetricService();
   }
 
   @Override
@@ -70,6 +78,10 @@ public class MicroServicesVerticleBase extends AbstractVerticle {
     discovery = ServiceDiscovery.create(vertx);
   }
 
+  private void initMetricService(){
+    this.metricsService = MetricsService.create(vertx);
+  }
+
   private void publish(Record record, Handler<AsyncResult<Void>> resultHandler) {
     logger.info("Publish record {} on service discovery", record.getName());
 
@@ -95,6 +107,20 @@ public class MicroServicesVerticleBase extends AbstractVerticle {
       new JsonObject().put("api.name", name));
 
     publish(record, resultHandler);
+  }
+  public void serverHealthCheckHandler(RoutingContext rc){
+    var hc = HealthCheckHandler.create(vertx);
+    hc.register("server-metrics",
+      future -> future.complete(Status.OK(metricsService.getMetricsSnapshot(server))));
+    hc.handle(rc);
+  }
+
+
+  public void metricsHealthCheckHandler(RoutingContext rc){
+    var hc = HealthCheckHandler.create(vertx);
+    hc.register("vertx-metrics",
+      future -> future.complete(Status.OK(metricsService.getMetricsSnapshot(vertx))));
+    hc.handle(rc);
   }
 
   public ServiceDiscovery getDiscovery() {
