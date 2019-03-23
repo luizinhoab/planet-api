@@ -26,6 +26,7 @@ Optionally install https://www.docker.com/[Docker] to run the container with Mon
 
   Main Class: io.vertx.core.Launcher
   VM Options:
+    -Dvertx.metrics.options.enabled=true
     -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.Log4j2LogDelegateFactory
     --add-exports
     java.base/jdk.internal.misc=ALL-UNNAMED
@@ -60,10 +61,22 @@ Run complete verification, currently unit and integration tests, runned by Travi
 
 ===== Start application
 
-    java -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.Log4j2LogDelegateFactory
+    java -Dvertx.metrics.options.enabled=true
+         -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.Log4j2LogDelegateFactory
          --add-exports java.base/jdk.internal.misc=ALL-UNNAMED
          -Dio.netty.tryReflectionSetAccessible=true
          -jar plane-api-<VERSION>.jar -conf src/main/resources/conf/config-dev.json
+
+== *Health & Metrics*
+
+The project exposes two health resources with associated metrics, for this is needed, before run app, to set the Vm Option:
+
+  '-Dvertx.metrics.options.enabled=true`.
+
+Exposed resources:
+
+  /health - with all metrics about Vertx instance running.
+  /health/server - just with metrics about the api server.
 
 == *Built with*
 
