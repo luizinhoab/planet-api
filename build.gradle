@@ -27,7 +27,6 @@ group = 'io.starwars'
 
 version = '1.2.0'
 
-
 targetCompatibility = 11
 sourceCompatibility = 11
 
