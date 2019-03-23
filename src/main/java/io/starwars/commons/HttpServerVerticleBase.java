@@ -32,13 +32,18 @@ public class HttpServerVerticleBase extends MicroServicesVerticleBase {
   public void start(Future<Void> startFuture){
     logger.info("Http Server starting ...");
     var options = new HttpServerOptions().setLogActivity(true);
-    vertx.createHttpServer(options)
-      .requestHandler(req ->{
+    this.server = vertx.createHttpServer(options);
+
+
+
+    this.server.requestHandler(req ->{
         if (req.path().equals("/")) {
           req.response()
             .putHeader("content-type", "text/plain")
             .end("up");
         }else{
+          router.get("/health/server").handler(this::serverHealthCheckHandler);
+          router.get("/health").handler(this::metricsHealthCheckHandler);
           router.accept(req);
         }
       })
