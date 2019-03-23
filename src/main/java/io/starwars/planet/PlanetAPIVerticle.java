@@ -28,7 +28,7 @@ public class PlanetAPIVerticle extends HttpServerVerticleBase {
 
   @Override
   public void start(Future<Void> startFuture) {
-    logger.info("Startinf api verticle");
+    logger.info("Starting api verticle");
     buildRouter(event -> {
       if (event.succeeded()) {
         super.start(startFuture);

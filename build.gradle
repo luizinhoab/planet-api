@@ -63,6 +63,9 @@ dependencies {
   implementation "io.vertx:vertx-circuit-breaker:$vertxVersion"
   implementation "io.vertx:vertx-web-api-contract:$vertxVersion"
   implementation "io.vertx:vertx-service-discovery-bridge-docker:$vertxVersion"
+  implementation "io.vertx:vertx-dropwizard-metrics:$vertxVersion"
+  implementation "io.vertx:vertx-health-check:$vertxVersion"
+  
   implementation "org.apache.logging.log4j:log4j-api:$log4jVersion"
   implementation "org.apache.logging.log4j:log4j-core:$log4jVersion"
 
